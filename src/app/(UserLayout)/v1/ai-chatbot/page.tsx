@@ -79,51 +79,7 @@ export default function ChatbotPage() {
     }
   }, [messages]);
 
-  const handleSend = () => {
-    if (!input.trim()) return;
-    
-    // Add user message
-    const newMessages = [...messages, { text: input, sender: "user" }];
-    setMessages(newMessages);
-    setInput("");
-    setIsTyping(true);
-
-    // Simulate bot typing
-    setTimeout(() => {
-      const lowerInput = input.toLowerCase();
-      const symptom = Object.keys(HEALTH_KNOWLEDGE).find(s => 
-        lowerInput.includes(s.toLowerCase())
-      );
-      
-      if (symptom) {
-        const advice = HEALTH_KNOWLEDGE[symptom as keyof typeof HEALTH_KNOWLEDGE];
-        setMessages([
-          ...newMessages,
-          { 
-            text: `I understand you're experiencing ${symptom}. Here's my advice:`, 
-            sender: "bot" 
-          },
-          { 
-            text: "🩹 Treatment Options:\n" + advice.cures.map(c => `• ${c}`).join("\n"),
-            sender: "bot"
-          },
-          { 
-            text: "🛡️ Prevention Tips:\n" + advice.prevention.map(p => `• ${p}`).join("\n"),
-            sender: "bot"
-          }
-        ]);
-      } else {
-        setMessages([
-          ...newMessages,
-          { 
-            text: "I couldn't recognize specific symptoms. Try describing with words like 'headache', 'fever', 'cough', 'sore throat', or 'back pain'.", 
-            sender: "bot" 
-          }
-        ]);
-      }
-      setIsTyping(false);
-    }, 1200);
-  };
+ 
 
   // Common symptoms list for quick selection
   const commonSymptoms = ["Headache", "Fever", "Cough", "Sore Throat", "Back Pain"];
@@ -174,7 +130,6 @@ export default function ChatbotPage() {
                   <div className="flex items-center gap-3">
                     <motion.div whileHover={{ rotate: 360 }} transition={{ duration: 0.5 }}>
                       <Avatar className="bg-red-500 border-2 border-white">
-                        <AvatarImage src="/bot-avatar.png" />
                         <AvatarFallback><Stethoscope className="h-5 w-5" /></AvatarFallback>
                       </Avatar>
                     </motion.div>
@@ -263,11 +218,9 @@ export default function ChatbotPage() {
                         onChange={(e) => setInput(e.target.value)}
                         placeholder="Describe your symptoms..."
                         className="min-h-[60px] border-red-200 focus-visible:ring-red-300"
-                        onKeyDown={(e) => e.key === "Enter" && !e.shiftKey && (e.preventDefault(), handleSend())}
                       />
                       <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
                         <Button 
-                          onClick={handleSend} 
                           size="icon" 
                           className="h-[60px] w-[60px] bg-gradient-to-r from-red-600 to-red-500 hover:from-red-700 hover:to-red-600 shadow-md"
                           disabled={isTyping}
