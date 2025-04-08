@@ -4,8 +4,7 @@ import { NextResponse } from "next/server";
 export default withAuth(
   function middleware() {
     // This gets called ONLY if authorized() returns true
-    console.log("printed
-        ")
+    console.log("printed ")
     return NextResponse.next();
   },
   {
@@ -39,7 +38,7 @@ export default withAuth(
     },
 
     pages: {
-      signIn: "/login", // 👈 Redirect here if `authorized` returns false
+      signIn: "/v2/login", // 👈 Redirect here if `authorized` returns false
     },
   }
 );
