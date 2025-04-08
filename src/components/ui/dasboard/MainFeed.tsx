@@ -35,10 +35,6 @@ export default function MainFeed() {
           ))}
         </div>
       </section>
-
-      {/* === Right Sidebar === */}
-
-      {/* === Mobile Menu === */}
     </main>
   );
 }
