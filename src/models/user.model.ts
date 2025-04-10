@@ -4,11 +4,10 @@ import bcrypt from "bcrypt";
 export interface IUser extends Document {
   name: string;
   email: string;
-  username: string;
   bio?: string;
   profileImage?: string;
   password: string;
-  isDoctor: boolean;
+  isDoctor?: boolean;
   specialization?: string;
   experience?: number; // in years
   hospital?: string;
@@ -30,12 +29,6 @@ const userSchema: mongoose.Schema<IUser> = new mongoose.Schema<IUser>(
       trim: true,
     },
     email: {
-      type: String,
-      required: true,
-      unique: true,
-      trim: true,
-    },
-    username: {
       type: String,
       required: true,
       unique: true,

@@ -1,18 +1,33 @@
 import type { NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
+import { mongoDb } from "./mongodb";
+import { User } from "@/models/user.model";
 
 export const authOptions: NextAuthOptions = {
   providers: [
     CredentialsProvider({
       name: "Credentials",
       credentials: {
-        username: { label: "Username", type: "text", placeholder: "jsmith" },
+        email: { label: "Email", type: "text", placeholder: "example@gmail.com" },
         password: { label: "Password", type: "password" },
       },
-      async authorize(credentials: any) {
-        console.log(credentials);
-        return null; // User return
-        // Todo i will do after making user model
+      async authorize(credentials) {
+        await mongoDb();
+
+        if (!credentials?.email || !credentials?.password) return null;
+
+        const user = await User.findOne({ email: credentials.email });
+        if (!user) return null;
+
+        const validPassword = await user.comparePassword(credentials.password);
+        if (!validPassword) return null;
+
+        return {
+          id: user._id!.toString(),
+          email: user.email,
+          name: user.name,
+          role: user.isDoctor ? "doctor" : "user",
+        };
       },
     }),
   ],

@@ -14,7 +14,7 @@ export const mongoDb = async () => {
   }
   try {
     const mongoconnectioninstance = await mongoose.connect(
-      process.env.MONGO_URI!
+      process.env.MONGODB_URI!
     );
     Connectionexists.connection = true;
     console.log(
