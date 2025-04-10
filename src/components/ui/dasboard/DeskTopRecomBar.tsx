@@ -18,7 +18,7 @@ export default function DeskTopRecommendationBar() {
               <span>Home</span>
             </Link>
             <Link
-              href="/v1/ai-doctor"
+              href="/v1/ai-chatbot"
               className="flex items-center space-x-3 p-3 rounded-lg hover:bg-gray-100 transition-colors"
             >
               <Bot className="w-5 h-5 text-green-500" />
