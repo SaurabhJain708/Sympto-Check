@@ -19,9 +19,9 @@ import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { toast } from "sonner";
 
-// Form schema matching your authOptions credentials
+// Updated form schema for email and password
 const formSchema = z.object({
-  username: z.string().min(1, "Username is required"),
+  email: z.string().email("Please enter a valid email address"),
   password: z.string().min(1, "Password is required"),
 });
 
@@ -34,7 +34,7 @@ export default function LoginForm() {
   const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      username: "",
+      email: "",
       password: "",
     },
   });
@@ -44,7 +44,7 @@ export default function LoginForm() {
     try {
       const result = await signIn("credentials", {
         redirect: false,
-        username: values.username,
+        email: values.email,
         password: values.password,
         callbackUrl: "/",
       });
@@ -72,13 +72,14 @@ export default function LoginForm() {
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
             <FormField
               control={form.control}
-              name="username"
+              name="email"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Username</FormLabel>
+                  <FormLabel>Email</FormLabel>
                   <FormControl>
                     <Input
-                      placeholder="jsmith"
+                      type="email"
+                      placeholder="jsmith@example.com"
                       {...field}
                       disabled={loading}
                     />
