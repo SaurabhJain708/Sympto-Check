@@ -32,7 +32,8 @@ const userSchema: mongoose.Schema<IUser> = new mongoose.Schema<IUser>(
       type: String,
       required: true,
       unique: true,
-      trim: true,
+      trim: true, 
+      lowercase:true
     },
     bio: {
       type: String,
