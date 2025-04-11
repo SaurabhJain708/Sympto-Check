@@ -47,7 +47,7 @@ export default function LoginForm() {
         redirect: false,
         email: values.email.toLowerCase(),
         password: values.password,
-        callbackUrl: "/",
+        callbackUrl: "/v1/dashboard",
       });
 
       if (result?.error) {
